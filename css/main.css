@@ -14,6 +14,9 @@ body {
   border-width: 2px;
   background: #282a28;
 }
+#cheater hr {
+  margin: 6px 3px;
+}
 .cheater {
   margin: 3px;
   padding: 2px 0;

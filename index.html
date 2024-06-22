@@ -61,11 +61,12 @@
 						<div id="container-equipment-stats"></div>
 					</div>
 					<div id="cheater" class="lvl13-box-2">
-						<div class="cheater" aria-label="lockpick" onclick="app.cheat('item exploration_1')"></div>
-						<div class="cheater" aria-label="outside" onclick="app.cheat('res food 6');app.cheat('res water 6');app.cheat('res metal 8');app.cheat('stamina')"></div>
-						<div class="cheater" aria-label="storage" onclick="app.cheat('res food 250');app.cheat('res water 250');app.cheat('res metal 250');app.cheat('res rope 200');"></div>
-						<div class="cheater" aria-label="worker" onclick="app.cheat('pop 1');"></div>
-						<div class="cheater" aria-label="rumours" onclick="app.cheat('rumours 200');"></div>
+						<div class="cheater" aria-label="home"></div>
+						<div class="cheater" aria-label="supply"></div>
+						<div class="cheater" aria-label="lockpick"></div>
+						<hr />
+						<div class="cheater" aria-label="worker"></div>
+						<div class="cheater" aria-label="storage"></div>
 					</div>
 					<div id="notification-player" class="unit whole notification">
 						<div id="notification-player-bar" class="progress-wrap progress">
@@ -878,6 +879,49 @@
 
 	<!-- RequireJS -->
 	<script data-main="src/config" src="lib/requirejs/require.min.js"></script>
+	<script>
+		document.querySelector("[aria-label=home]").addEventListener("click", (e) => {
+			app.cheat("teleportHome");
+		});
+		document.querySelector("[aria-label=supply]").addEventListener("click", (e) => {
+			if (document.querySelector("#bag-resources[data-visible=true]")) {
+				let v = Math.floor(document.querySelector(".value-total").textContent / 4);
+				app.cheat("stamina");
+				let f = document.querySelector("#resources-bag-food[data-visible=true]") ? document.querySelector("#resources-bag-food .value").textContent : 0;
+				f < v && app.cheat(`res food ${v}`);
+				let w = document.querySelector("#resources-bag-water[data-visible=true]") ? document.querySelector("#resources-bag-water .value").textContent : 0;
+				w < v && app.cheat(`res water ${v}`);
+				let m = document.querySelector("#resources-bag-metal[data-visible=true]") ? document.querySelector("#resources-bag-metal .value").textContent : 0;
+				m < 8 && app.cheat("res metal 8");
+			}
+		});
+		document.querySelector("[aria-label=lockpick]").addEventListener("click", (e) => {
+			app.cheat("item exploration_1");
+		});
+		document.querySelector("[aria-label=worker]").addEventListener("click", (e) => {
+			app.cheat("pop 1");
+		});
+		document.querySelector("[aria-label=storage]").addEventListener("click", (e) => {
+			if (document.querySelector("#main-header-camp[data-visible=true]")) {
+				let val = document.querySelector("#header-camp-storage .value").textContent;
+				let res = document.querySelectorAll("#statsbar-resources [id][data-visible=true]");
+				res.forEach((r) => {
+					if (r.querySelector(".indicator-increase")) {
+						let n = r.id.substring(10);
+						["food", "water", "metal"].includes(n) && (val = val * .8);
+						app.cheat(`res ${n} ${val}`);
+						
+					}
+				});
+			}
+		});
+		/*
+		<div class="cheater" aria-label="rumours"></div>
+		document.querySelector("[aria-label=rumours]").addEventListener("click", (e) => {
+			app.cheat("rumours 200");
+		});
+		*/
+	</script>
 
 </body>
 </html>
