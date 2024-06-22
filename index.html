@@ -908,8 +908,8 @@
 				res.forEach((r) => {
 					if (r.querySelector(".indicator-increase")) {
 						let n = r.id.substring(10);
-						["food", "water", "metal"].includes(n) && (val = val * .8);
-						app.cheat(`res ${n} ${val}`);
+						let v = ["food", "water", "metal"].includes(n) ? val : val * .8;
+						app.cheat(`res ${n} ${v}`);
 						
 					}
 				});
