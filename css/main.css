@@ -7,6 +7,26 @@ body {
   border-width: 0px !important;
   overflow-x: hidden;
 }
+#cheater {
+  margin: 5px 0 0;
+  font-size: 0.8rem;
+  text-align: center;
+  border-width: 2px;
+  background: #282a28;
+}
+.cheater {
+  margin: 3px;
+  padding: 2px 0;
+  border: 1px solid #555;
+  opacity: .5;
+  cursor: pointer;
+}
+.cheater:hover {
+  opacity: 1;
+}
+.cheater::before {
+  content: attr(aria-label);
+}
 .div-horizontal-space-filler {
   visibility: hidden;
   padding: 1px;
