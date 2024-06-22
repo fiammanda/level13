@@ -17,12 +17,12 @@ body {
 .cheater {
   margin: 3px;
   padding: 2px 0;
+  color: #ccc;
   border: 1px solid #555;
-  opacity: .5;
   cursor: pointer;
 }
 .cheater:hover {
-  opacity: 1;
+  background: #2f322f;
 }
 .cheater::before {
   content: attr(aria-label);
