@@ -898,7 +898,7 @@
 						if (r.querySelector(".indicator-increase")) {
 							let n = r.id.substring(10);
 							let v = ["food", "water", "metal"].includes(n) ? val : val * .8;
-							v > r.querySelector("").textContent && app.cheat(`res ${n} ${v}`);
+							v > r.querySelector(".value").textContent && app.cheat(`res ${n} ${v}`);
 						}
 					});
 				} else {
