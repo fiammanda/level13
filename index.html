@@ -61,7 +61,6 @@
 						<div id="container-equipment-stats"></div>
 					</div>
 					<div id="cheater" class="lvl13-box-2">
-						<div class="cheater" aria-label="home"></div>
 						<div class="cheater" aria-label="supply"></div>
 						<div class="cheater" aria-label="lockpick"></div>
 						<hr />
@@ -864,35 +863,24 @@
 	</div>
 	
 	<div id="theme-transition-overlay" style="display:none"></div>
-	
-	<!-- Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118652515-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-118652515-1', {
-			'app_name': 'Level13',
-			'custom_map': { 'dimension1': 'world_seed', 'dimension2': 'max_level', 'dimension3': 'max_camp' },
-		});
-	</script>
 
 	<!-- RequireJS -->
 	<script data-main="src/config" src="lib/requirejs/require.min.js"></script>
 	<script>
-		document.querySelector("[aria-label=home]").addEventListener("click", (e) => {
-			app.cheat("teleportHome");
-		});
 		document.querySelector("[aria-label=supply]").addEventListener("click", (e) => {
 			if (document.querySelector("#bag-resources[data-visible=true]")) {
-				let v = Math.floor(document.querySelector(".value-total").textContent / 4);
+				let v = Math.floor(document.querySelector(".value-total").textContent / 4.8);
 				app.cheat("stamina");
 				let f = document.querySelector("#resources-bag-food[data-visible=true]") ? document.querySelector("#resources-bag-food .value").textContent : 0;
-				f < v && app.cheat(`res food ${v}`);
+				app.cheat(`res food ${Math.max(v, f)}`);
 				let w = document.querySelector("#resources-bag-water[data-visible=true]") ? document.querySelector("#resources-bag-water .value").textContent : 0;
-				w < v && app.cheat(`res water ${v}`);
+				app.cheat(`res water ${Math.max(v, w)}`);
 				let m = document.querySelector("#resources-bag-metal[data-visible=true]") ? document.querySelector("#resources-bag-metal .value").textContent : 0;
-				m < 8 && app.cheat("res metal 8");
+				app.cheat(`res metal ${Math.max(v, m, 8)}`);
+				if (document.querySelector("#out-improvements-beacon[data-visible=true]")) {
+					let fuel = document.querySelector("#resources-bag-fuel[data-visible=true]") ? document.querySelector("#resources-bag-fuel .value").textContent : 0;
+					app.cheat(`res fuel ${Math.max(fuel, 1)}`);
+				}
 			}
 		});
 		document.querySelector("[aria-label=lockpick]").addEventListener("click", (e) => {
@@ -905,17 +893,24 @@
 			if (document.querySelector("#main-header-camp[data-visible=true]")) {
 				let val = document.querySelector("#header-camp-storage .value").textContent;
 				let res = document.querySelectorAll("#statsbar-resources [id][data-visible=true]");
-				res.forEach((r) => {
-					if (r.querySelector(".indicator-increase")) {
-						let n = r.id.substring(10);
-						let v = ["food", "water", "metal"].includes(n) ? val : val * .8;
-						app.cheat(`res ${n} ${v}`);
-						
-					}
-				});
+				if (val > 200) {
+					res.forEach((r) => {
+						if (r.querySelector(".indicator-increase")) {
+							let n = r.id.substring(10);
+							let v = ["food", "water", "metal"].includes(n) ? val : val * .8;
+							v > r.querySelector("").textContent && app.cheat(`res ${n} ${v}`);
+						}
+					});
+				} else {
+					res.forEach((r) => { app.cheat(`res ${r.id.substring(10)} ${val}`) });
+				}
 			}
 		});
 		/*
+		<div class="cheater" aria-label="home"></div>
+		document.querySelector("[aria-label=home]").addEventListener("click", (e) => {
+			app.cheat("teleportHome");
+		});
 		<div class="cheater" aria-label="rumours"></div>
 		document.querySelector("[aria-label=rumours]").addEventListener("click", (e) => {
 			app.cheat("rumours 200");
