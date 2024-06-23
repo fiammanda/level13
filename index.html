@@ -871,14 +871,14 @@
 			if (document.querySelector("#bag-resources[data-visible=true]")) {
 				let v = Math.floor(document.querySelector(".value-total").textContent / 4.8);
 				app.cheat("stamina");
-				let f = document.querySelector("#resources-bag-food[data-visible=true]") ? document.querySelector("#resources-bag-food .value").textContent : 0;
+				let f = document.querySelector("#resources-bag-food[data-visible=true]") ? Number(document.querySelector("#resources-bag-food .value").textContent) : 0;
 				app.cheat(`res food ${Math.max(v, f)}`);
-				let w = document.querySelector("#resources-bag-water[data-visible=true]") ? document.querySelector("#resources-bag-water .value").textContent : 0;
+				let w = document.querySelector("#resources-bag-water[data-visible=true]") ? Number(document.querySelector("#resources-bag-water .value").textContent) : 0;
 				app.cheat(`res water ${Math.max(v, w)}`);
-				let m = document.querySelector("#resources-bag-metal[data-visible=true]") ? document.querySelector("#resources-bag-metal .value").textContent : 0;
+				let m = document.querySelector("#resources-bag-metal[data-visible=true]") ? Number(document.querySelector("#resources-bag-metal .value").textContent) : 0;
 				app.cheat(`res metal ${Math.max(v, m, 8)}`);
 				if (document.querySelector("#out-improvements-beacon[data-visible=true]")) {
-					let fuel = document.querySelector("#resources-bag-fuel[data-visible=true]") ? document.querySelector("#resources-bag-fuel .value").textContent : 0;
+					let fuel = document.querySelector("#resources-bag-fuel[data-visible=true]") ? Number(document.querySelector("#resources-bag-fuel .value").textContent) : 0;
 					app.cheat(`res fuel ${Math.max(fuel, 1)}`);
 				}
 			}
@@ -897,8 +897,8 @@
 					res.forEach((r) => {
 						if (r.querySelector(".indicator-increase")) {
 							let n = r.id.substring(10);
-							let v = ["food", "water", "metal"].includes(n) ? val : val * .8;
-							v > r.querySelector(".value").textContent && app.cheat(`res ${n} ${v}`);
+							let v = ["food", "water", "metal"].includes(n) ? Number(val) : val * .8;
+							v > Number(r.querySelector(".value").textContent) && app.cheat(`res ${n} ${v}`);
 						}
 					});
 				} else {
